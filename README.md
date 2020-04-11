@@ -1,4 +1,6 @@
-# vueapp
+# Simple blog CRM on vue.js FE + rails api BE
+
+https://rusikf.github.io/vueapp/
 
 ## Project setup
 ```
