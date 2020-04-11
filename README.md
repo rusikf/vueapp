@@ -1,6 +1,9 @@
 # Simple blog CRM on vue.js FE + rails api BE
+[![Build Status](https://travis-ci.org/rusikf/vueapp.svg?branch=master)](https://travis-ci.org/rusikf/vueapp)
 
 https://rusikf.github.io/vueapp/
+
+BE app - https://github.com/rusikf/vueblog
 
 ## Project setup
 ```
