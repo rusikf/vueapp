@@ -27,11 +27,10 @@
     },
     methods: {
       onSubmit() {
-        console.log('process.env', process.env)
         let params = { title: this.title, content: this.content }
         PostsApi.create(params)
-          .then(() => { window.location = "http://localhost:8081?blogger=1" })
-        }
+          .then(() => { this.$router.push({ name: 'blogger_root' }) })
+      }
     }
   }
 </script>

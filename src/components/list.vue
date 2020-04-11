@@ -45,7 +45,7 @@ export default {
   components: { Comments },
   computed: {
     blogger() {
-      return new URLSearchParams(window.location.search).get('blogger')
+      return this.$route.path == '/as_blogger'
     },
 
     filtered() {
@@ -56,8 +56,6 @@ export default {
   methods: {
     publishDraft(postId, event) {
       let published = event.currentTarget.checked
-      console.log('lets publish it', published)
-      console.log('postId', postId)
       PostsApi.update({ postId: postId, published: published })
     },
     addComment(newComment) {
@@ -66,17 +64,20 @@ export default {
       var editedPost = {...post }
       editedPost.comments.push(newComment)
 
-      console.log('indexofPost', indexOfPost)
-      console.log('editedPost', editedPost)
       this.$root.$set(this.posts, indexOfPost, editedPost)
+    },
+    fetchPosts() {
+      PostsApi.index()
+        .then(response => {
+          this.posts = response.data
+        })
     }
   },
-
-  mounted() {
-    PostsApi.index()
-      .then(response => {
-        this.posts = response.data
-      })
+  created() {
+    this.fetchPosts()
+  },
+  watch: {
+    '$route': 'fetchPosts'
   },
   data() {
     return ({
