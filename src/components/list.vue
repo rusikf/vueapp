@@ -13,13 +13,13 @@
       <tbody>
         <tr v-for="item in filtered" :key="item.id">
           <td>{{ item.id }}</td>
-          <td>{{ item.title }}</td>
-          <td>{{ item.content }}</td>
+          <td>{{ attrs(item).title }}</td>
+          <td>{{ attrs(item).content }}</td>
           <td>
             <Comments
-              :count="item.comments.length"
-              :comments="item.comments"
-              :id="item.id"
+              :count="33"
+              :comments="fullComments(item)"
+              :id="+item.id"
               @add="addComment"
               >
             </Comments>
@@ -27,7 +27,7 @@
           <td v-if="blogger">
             <form>
               <div class="form-check">
-                <input type="checkbox" v-bind:checked="item.published" v-on:change="publishDraft(item.id, $event)" class="form-check-input" id="published">
+                <input type="checkbox" v-bind:checked="attrs(item).published" v-on:change="publishDraft(item.id, $event)" class="form-check-input" id="published">
               </div>
             </form>
           </td>
@@ -36,8 +36,8 @@
     </table>
   </div>
 </template>
-
 <script>
+/* eslint-disable no-debugger */
 import Comments from './comments.vue';
 import PostsApi from '../api/posts';
 export default {
@@ -49,27 +49,30 @@ export default {
     },
 
     filtered() {
-      return this.blogger ? this.posts : this.posts.filter((post) => post.published)
+      return this.blogger ? this.posts : this.posts.filter((post) => this.attrs(post).published)
     }
   },
 
   methods: {
+    fullComments(post) {
+      return this.comments.filter((comment) => comment.attributes['post-id'].toString() == post.id )
+    },
+    attrs(post) {
+      return post.attributes
+    },
     publishDraft(postId, event) {
+      console.log('postId', postId)
       let published = event.currentTarget.checked
       PostsApi.update({ postId: postId, published: published })
     },
     addComment(newComment) {
-      var post = this.posts.find((post) => { return post.id == newComment.post_id })
-      var indexOfPost = this.posts.indexOf(post)
-      var editedPost = {...post }
-      editedPost.comments.push(newComment)
-
-      this.$root.$set(this.posts, indexOfPost, editedPost)
+      this.comments.push(newComment.data)
     },
     fetchPosts() {
       PostsApi.index()
         .then(response => {
-          this.posts = response.data
+          this.posts = response.data.data
+          this.comments = response.data.included
         })
     }
   },
@@ -82,7 +85,8 @@ export default {
   data() {
     return ({
       message: 'I am list message',
-      posts: []
+      posts: [],
+      comments: []
     })
   }
 }

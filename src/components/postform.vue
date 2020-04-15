@@ -27,7 +27,13 @@
     },
     methods: {
       onSubmit() {
-        let params = { title: this.title, content: this.content }
+        let params = {
+          data: {
+            type: 'posts',
+            attributes: { title: this.title, content: this.content }
+          }
+        }
+
         PostsApi.create(params)
           .then(() => { this.$router.push({ name: 'blogger_root' }) })
       }

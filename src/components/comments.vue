@@ -2,7 +2,7 @@
   <div>
     <p>Total comments {{ count }}</p>
     <ul>
-      <li v-for="comment in comments" :key="comment.id">{{ comment.content }}</li>
+      <li v-for="comment in comments" :key="comment.id">{{ comment.attributes.content }}</li>
     </ul>
     <form v-on:submit.prevent="onSubmit($event)">
       <div class="form-group">
