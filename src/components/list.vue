@@ -20,7 +20,6 @@
               :count="fullComments(item).length"
               :comments="fullComments(item)"
               :id="+item.id"
-              @add="addComment"
               >
             </Comments>
           </td>
@@ -37,9 +36,10 @@
   </div>
 </template>
 <script>
-/* eslint-disable no-debugger */
 import Comments from './comments.vue';
 import PostsApi from '../api/posts';
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'List',
   components: { Comments },
@@ -50,7 +50,10 @@ export default {
 
     filtered() {
       return this.blogger ? this.posts : this.posts.filter((post) => this.attrs(post).published)
-    }
+    },
+    ...mapState([
+      'posts', 'comments'
+    ])
   },
 
   methods: {
@@ -61,33 +64,18 @@ export default {
       return post.attributes
     },
     publishDraft(postId, event) {
-      console.log('postId', postId)
       let published = event.currentTarget.checked
       PostsApi.update({ postId: postId, published: published })
     },
-    addComment(newComment) {
-      this.comments.push(newComment.data)
-    },
-    fetchPosts() {
-      PostsApi.index()
-        .then(response => {
-          this.posts = response.data.data
-          this.comments = response.data.included ? response.data.included : []
-        })
-    }
+    ...mapActions([
+      'fetchPosts'
+    ])
   },
   created() {
     this.fetchPosts()
   },
   watch: {
     '$route': 'fetchPosts'
-  },
-  data() {
-    return ({
-      message: 'I am list message',
-      posts: [],
-      comments: []
-    })
   }
 }
 </script>

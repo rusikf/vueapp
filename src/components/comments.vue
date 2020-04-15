@@ -4,7 +4,7 @@
     <ul>
       <li v-for="comment in comments" :key="comment.id">{{ comment.attributes.content }}</li>
     </ul>
-    <form v-on:submit.prevent="onSubmit($event)">
+    <form v-on:submit.prevent="onSubmit">
       <div class="form-group">
         <textarea v-model="content" class="form-control" id="content" rows="2" placeholder="Add comment"></textarea>
       </div>
@@ -13,7 +13,8 @@
   </div>
 </template>
 <script>
-  import CommentsApi from '../api/comments';
+  import { mapActions } from 'vuex';
+
   export default {
     name: 'Comments',
     props: {
@@ -28,13 +29,16 @@
     },
     methods: {
       onSubmit() {
-        CommentsApi.add({
-          id: this.id,
-          content: this.content
-        }).then(response => {
-          this.$emit('add', response.data)
+        let id = this.id
+        let content = this.content
+        this.addComment({
+          id,
+          content
         })
-      }
+      },
+      ...mapActions([
+        'addComment'
+      ])
     }
   }
 </script>
