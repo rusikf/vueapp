@@ -72,7 +72,7 @@ export default {
       PostsApi.index()
         .then(response => {
           this.posts = response.data.data
-          this.comments = response.data.included
+          this.comments = response.data.included ? response.data.included : []
         })
     }
   },
