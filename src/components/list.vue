@@ -17,7 +17,7 @@
           <td>{{ attrs(item).content }}</td>
           <td>
             <Comments
-              :count="33"
+              :count="fullComments(item).length"
               :comments="fullComments(item)"
               :id="+item.id"
               @add="addComment"
