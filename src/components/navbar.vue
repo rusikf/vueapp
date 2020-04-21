@@ -1,20 +1,40 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="">Vue blog</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <router-link class="nav-item nav-link" :to="{ name: 'root' }">Home</router-link>
-        <router-link class="nav-item nav-link" to="/posts/new">New post</router-link>
-        <router-link class="nav-item nav-link" :to="{ name: 'blogger_root' }">As blogger</router-link>
-      </div>
-    </div>
-  </nav>
+  <mdb-navbar color="indigo" dark>
+    <mdb-navbar-brand href="https://mdbootstrap.com/">
+      Bookser
+    </mdb-navbar-brand>
+    <mdb-navbar-toggler>
+      <mdb-navbar-nav>
+        <mdb-dropdown tag="li" class="nav-item">
+          <mdb-dropdown-toggle tag="a" navLink color="indigo" slot="toggle" waves-fixed>Home</mdb-dropdown-toggle>
+          <mdb-dropdown-menu>
+            <mdb-dropdown-item router :to="{ name: 'root' }">As Guest</mdb-dropdown-item>
+            <mdb-dropdown-item router :to="{ name: 'blogger_root' }">As blogger</mdb-dropdown-item>
+          </mdb-dropdown-menu>
+        </mdb-dropdown>
+        <mdb-nav-item router to="/posts/new">New Post </mdb-nav-item>
+      </mdb-navbar-nav>
+      <form>
+        <mdb-input type="text" class="text-white" placeholder="Search" aria-label="Search" label navInput waves waves-fixed/>
+      </form>
+    </mdb-navbar-toggler>
+  </mdb-navbar>
 </template>
 <script>
+  import { mdbNavbar, mdbNavbarBrand, mdbNavbarToggler, mdbNavbarNav, mdbNavItem, mdbDropdown, mdbDropdownMenu, mdbDropdownToggle, mdbInput, mdbDropdownItem } from 'mdbvue'
   export default {
-    name: 'Navbar'
+    name: 'Navbar',
+    components: {
+      mdbNavbar,
+      mdbNavbarBrand,
+      mdbNavbarToggler,
+      mdbNavbarNav,
+      mdbNavItem,
+      mdbDropdown,
+      mdbDropdownMenu,
+      mdbDropdownToggle,
+      mdbDropdownItem,
+      mdbInput
+    }
   }
 </script>

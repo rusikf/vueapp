@@ -1,22 +1,25 @@
 <template>
-  <div id="app">
-    <div class="container">
-      <div class="row">
-        <div class="col-10">
-          <Navbar></Navbar>
-          <router-view></router-view>
-        </div>
-      </div>
+  <mdb-container fluid>
+    <Navbar></Navbar>
+    <div class='mt-3'>
+      <router-view></router-view>
     </div>
-  </div>
+  </mdb-container>
 </template>
 
 <script>
-import Navbar from './components/navbar.vue'
-
+import Navbar from './components/navbar.vue';
+import { mdbContainer } from "mdbvue";
 export default {
-  name: 'App',
-  components: { Navbar }
-}
+  name: "App",
+  components: {
+    mdbContainer,
+    Navbar
+  }
+};
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+</style>
 
